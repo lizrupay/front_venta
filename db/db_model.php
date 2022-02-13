@@ -20,6 +20,9 @@ include 'dbapi/api_model_compra.php';
 include 'dbapi/api_model_compracarrito.php'; 
 include 'dbapi/api_model_compradetallecarrito.php'; 
 
+include 'dbapi/api_model_ventacarrito.php'; 
+include 'dbapi/api_model_ventadetallecarrito.php'; 
+
 include 'dbmysql/mysql_model.php'; 
 
 class db_model
@@ -2239,6 +2242,243 @@ class db_model
 		
 	}    
 	
+
+
+
+		//-------- Tabla VentaCarrito        --------
+		//--------------------------------------------------		
+        public function ventacarrito_listar()
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_ventacarrito();
+
+                $p_rptJson = $objapi->ventacarrito_listar();
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->ventacarrito_listar();
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}
+
+
+
+        public function ventacarrito_listar_porid($p_campo_dato)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_ventacarrito();
+				
+                $p_rptJson = $objapi->ventacarrito_listar_porid($p_campo_dato);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->ventacarrito_listar_porid($p_campo_dato);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}
+
+
+        public function ventacarrito_listar_pordescripcion($p_campo_dato)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_ventacarrito();
+
+                $p_rptJson = $objapi->ventacarrito_listar_pordescripcion($p_campo_dato);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->ventacarrito_listar_pordescripcion($p_campo_dato);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}
+
+
+        public function ventacarrito_buscar($p_codigo)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_ventacarrito();
+
+                $p_rptJson = $objapi->ventacarrito_buscar($p_codigo);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->ventacarrito_buscar($p_codigo);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}    
+        
+    
+        public function ventacarrito_buscar_ultimaventa($p_usuario)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_ventacarrito();
+
+                $p_rptJson = $objapi->ventacarrito_buscar_ultimaventa($p_usuario);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->ventacarrito_buscar_ultimaventa($p_usuario);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}  
+
+
+        public function ventacarrito_editar($postData)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_ventacarrito();
+
+                $p_rptJson = $objapi->ventacarrito_editar($postData);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->ventacarrito_editar($postData);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}  
+        
+        
+        public function ventacarrito_registrar($postData)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_ventacarrito();
+
+                $p_rptJson = $objapi->ventacarrito_registrar($postData);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->ventacarrito_registrar($postData);
+
+
+			}
+			
+			return $p_rptJson;
+			
+	}  
+
+	public function ventacarrito_eliminar($p_codigo)
+	{
+
+	   // echo "el modelo a trabajae es : ".$this->db_model;
+		$p_rptJson = null;
+		if ($this->db_model =='API')
+		{		
+			
+			$objapi = new api_model_ventacarrito();
+
+			$p_rptJson = $objapi->ventacarrito_eliminar($p_codigo);
+
+
+		}else
+		{
+
+			
+			$objmysql = new mysql_model();
+
+			$p_rptJson = $objmysql->ventacarrito_eliminar($p_codigo);
+
+
+		}
+		
+		return $p_rptJson;
+		
+	}    
+	
+
 
 		//-------- Tabla CompraDetalleCarrito        --------
 		//--------------------------------------------------		
