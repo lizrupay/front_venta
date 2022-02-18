@@ -20,6 +20,7 @@ include 'dbapi/api_model_compra.php';
 include 'dbapi/api_model_compracarrito.php'; 
 include 'dbapi/api_model_compradetallecarrito.php'; 
 
+include 'dbapi/api_model_venta.php';
 include 'dbapi/api_model_ventacarrito.php'; 
 include 'dbapi/api_model_ventadetallecarrito.php'; 
 
@@ -2242,6 +2243,212 @@ class db_model
 		
 	}    
 	
+		//-------- Tabla Venta        --------
+		//--------------------------------------------------		
+        public function venta_listar()
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_venta();
+
+                $p_rptJson = $objapi->venta_listar();
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->venta_listar();
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}
+
+
+
+        public function venta_listar_porid($p_campo_dato)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_venta();
+				
+                $p_rptJson = $objapi->venta_listar_porid($p_campo_dato);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->venta_listar_porid($p_campo_dato);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}
+
+
+        public function venta_listar_pordescripcion($p_campo_dato)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_venta();
+
+                $p_rptJson = $objapi->venta_listar_pordescripcion($p_campo_dato);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->venta_listar_pordescripcion($p_campo_dato);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}
+
+
+        public function venta_buscar($p_codigo)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_venta();
+
+                $p_rptJson = $objapi->venta_buscar($p_codigo);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->venta_buscar($p_codigo);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}    
+        
+        
+        public function venta_editar($postData)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_venta();
+
+                $p_rptJson = $objapi->venta_editar($postData);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->venta_editar($postData);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}  
+        
+        
+        public function venta_registrar($postData)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_venta();
+
+                $p_rptJson = $objapi->venta_registrar($postData);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->venta_registrar($postData);
+
+
+			}
+			
+			return $p_rptJson;
+			
+	}  
+
+	public function venta_eliminar($p_codigo)
+	{
+
+	   // echo "el modelo a trabajae es : ".$this->db_model;
+		$p_rptJson = null;
+		if ($this->db_model =='API')
+		{		
+			
+			$objapi = new api_model_venta();
+
+			$p_rptJson = $objapi->venta_eliminar($p_codigo);
+
+
+		}else
+		{
+
+			
+			$objmysql = new mysql_model();
+
+			$p_rptJson = $objmysql->venta_eliminar($p_codigo);
+
+
+		}
+		
+		return $p_rptJson;
+		
+	}    
+	
+
+
 
 
 
@@ -2867,7 +3074,38 @@ class db_model
 			return $p_rptJson;
 			
 		}    
-        
+
+
+		
+
+
+        public function cliente_validarlogin($postData)
+		{
+
+           // echo "el modelo a trabajae es : ".$this->db_model;
+            $p_rptJson = null;
+			if ($this->db_model =='API')
+			{		
+                
+                $objapi = new api_model_cliente();
+
+                $p_rptJson = $objapi->cliente_validarlogin($postData);
+
+
+			}else
+			{
+
+                
+                $objmysql = new mysql_model();
+
+                $p_rptJson = $objmysql->cliente_validarlogin($postData);
+
+
+			}
+			
+			return $p_rptJson;
+			
+		}           
         
         public function cliente_editar($postData)
 		{

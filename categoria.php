@@ -20,78 +20,6 @@
 <?php 
     include 'componentes/seguridad.php'; 
     include 'db/db_model.php'; 
- 
-    $p_token  = $_GET["token"];
-    //echo $p_token;
-    $dato_desencriptado = desencriptar_parametro($p_token);
-    $separador = "|";
-    $separada = explode($separador, $dato_desencriptado);
-
-    $pusuario           = $separada[0];
-    $pcompracarrito     = $separada[1];
-    $pproductoid        = $separada[2];
-    $pcategoriacodigo   = $separada[3];
-    $pcategorianombre   = $separada[4];
- 
-    // $token = $pusuario."|".$pcompracarrito."|".$pproductoid."|".$pcodigocategoria."|".$pcategorianombre;
-
-    echo $pusuario."|".$pcompracarrito."|".$pproductoid."|".$pcategoriacodigo."|".$pcategorianombre."<br>";
-
-    if ($pcompracarrito <> "0")
-    {
-        echo " hay que registrar venta "."<br>";
-
-        //Regristo de carrito de venta
-
-        $p_itemsDetalleVenta     = array();
-
-        $postDataDetalleVenta    = array(
-                                        'venta' => array(
-                                                            'venta_id' => 0),            
-                                        'producto' => array(
-                                                            'producto_id' => $pproductoid),
-                                        'cantidad_ventadetalle' => $pcompracarrito,
-                                        'estado' => '1'); 
-
-
-                                                
-
-        $p_itemsDetalleVenta[] = $postDataDetalleVenta;
-        
-        $postData               = array(
-
-
-                                        'cliente' => array(
-                                                'cliente_id' => $pusuario),
-                                        'estado_venta' => '1',
-
-                                        'itemsVentadetallecarritos' => $p_itemsDetalleVenta
-                                    );      
-
-
-        $objDB = new db_model();
-
-        $p_rptJson = $objDB->ventacarrito_registrar($postData);
-
-
-        $p_adicionarVenta = json_decode($p_rptJson, true);
-
-        $p_codigorpt    = $p_adicionarVenta['mensaje_id'];
-        $p_mensajerpt   = $p_adicionarVenta['mensaje'];
-        
-        if ($p_codigorpt == '0')
-        {
-          $p_codigoproducto     = '';
-          $p_cantidad           = '';
-          $p_precio             = '';
-          $p_mensajerpt            = '¡registro de detalle exitoso!'; 
-        }
-
-        echo "mensaje : ".$p_mensajerpt."\n";
-
-    }
-
-
 
 ?>
 
@@ -113,6 +41,85 @@
 		
 		</div>
 	</header>
+
+    <!-- Captura Datos API -->
+
+    <?php 
+
+            $p_token  = $_GET["token"];
+            //echo $p_token;
+            $dato_desencriptado = desencriptar_parametro($p_token);
+            $separador = "|";
+            $separada = explode($separador, $dato_desencriptado);
+
+            $pusuario           = $separada[0];
+            $pcompracarrito     = $separada[1];
+            $pproductoid        = $separada[2];
+            $pcategoriacodigo   = $separada[3];
+            $pcategorianombre   = $separada[4];
+        
+            // $token = $pusuario."|".$pcompracarrito."|".$pproductoid."|".$pcodigocategoria."|".$pcategorianombre;
+
+         echo $pusuario."|".$pcompracarrito."|".$pproductoid."|".$pcategoriacodigo."|".$pcategorianombre."<br>";
+
+            if ($pcompracarrito <> "0")
+            {
+                echo " hay que registrar venta "."<br>";
+
+                //Regristo de carrito de venta
+
+                $p_itemsDetalleVenta     = array();
+
+                $postDataDetalleVenta    = array(
+                                                'venta' => array(
+                                                                    'venta_id' => 0),            
+                                                'producto' => array(
+                                                                    'producto_id' => $pproductoid),
+                                                'cantidad_ventadetalle' => $pcompracarrito,
+                                                'estado' => '1'); 
+
+
+                                                        
+
+                $p_itemsDetalleVenta[] = $postDataDetalleVenta;
+                
+                $postData               = array(
+
+
+                                                'cliente' => array(
+                                                        'cliente_id' => $pusuario),
+                                                'estado_venta' => '1',
+
+                                                'itemsVentadetallecarritos' => $p_itemsDetalleVenta
+                                            );      
+
+
+                $objDB = new db_model();
+
+                $p_rptJson = $objDB->ventacarrito_registrar($postData);
+
+
+                $p_adicionarVenta = json_decode($p_rptJson, true);
+
+                $p_codigorpt    = $p_adicionarVenta['mensaje_id'];
+                $p_mensajerpt   = $p_adicionarVenta['mensaje'];
+                
+                if ($p_codigorpt == '0')
+                {
+                $p_codigoproducto     = '';
+                $p_cantidad           = '';
+                $p_precio             = '';
+                $p_mensajerpt            = '¡registro de detalle exitoso!'; 
+                }
+
+                echo "mensaje : ".$p_mensajerpt."\n";
+
+            }
+
+
+
+    ?>
+
 
 	<div class="super_container_inner">
 		<div class="super_overlay"></div>
@@ -262,3 +269,4 @@
 <script src="js/category.js"></script>
 </body>
 </html>
+

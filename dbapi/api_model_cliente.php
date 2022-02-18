@@ -51,6 +51,55 @@ class api_model_cliente{
     }  
     
      
+    public function cliente_validarlogin($p_info_json){
+
+  
+	
+        $rludato = 'http://172.96.143.27:8085/proyecto/tecnomarket/cliente/validarlogin';
+
+
+        $curl = curl_init($rludato);
+        $datojson = json_encode($p_info_json);
+
+
+        curl_setopt_array($curl, array(
+            // Indicar que vamos a hacer una petición POST
+            CURLOPT_CUSTOMREQUEST => "POST",
+            // Justo aquí ponemos los datos dentro del cuerpo
+            CURLOPT_POSTFIELDS => $datojson,
+            // Encabezados
+            //CURLOPT_HEADER => true,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($datojson), // Abajo podríamos agregar más encabezados
+                'Personalizado: ¡Hola mundo!', # Un encabezado personalizado
+            ),
+            # indicar que regrese los datos, no que los imprima directamente
+            CURLOPT_RETURNTRANSFER => true,
+        ));
+
+
+        # Hora de hacer la petición
+        $resultado = curl_exec($curl);
+        # Vemos si el código es 200, es decir, HTTP_OK
+        $codigoRespuesta = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        $arrayR = $resultado;
+       
+
+        $respuestaDecodificada = json_decode($arrayR);
+
+       
+      //  print_r("codigo de respuesta".$codigoRespuesta);
+       // print_r("json de respuesta".$respuestaDecodificada);
+       
+
+
+
+		return $arrayR;
+
+    }
+
     public function cliente_eliminar($p_codigo){
 
   

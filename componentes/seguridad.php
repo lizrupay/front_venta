@@ -40,8 +40,6 @@
 
 
                 return $output;
-
-
         }
         /*
         Desencripta el texto recibido

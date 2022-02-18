@@ -20,12 +20,151 @@
 </head>
 
 <body>
+
+
+	<?php
+		include 'componentes/seguridad.php'; 
+		include 'db/db_model.php'; 
+
+	?>
+
+
 	<!-- Menu -->
 	<div class="super_container">
 
 		<!-- Header -->
 		<header class="header">
+			<div class="header_overlay">
+
+			</div>
+			<div class="header_content d-flex flex-row align-items-center justify-content-start">
+				
+
+					<!-- User -->
+					<?php include "loginsistemapagar.php"; ?>
+
+
+			
+			</div>
 		</header>
+
+		<!-- Captura Datos API -->
+
+		<?php
+ 
+				// Verificar el detalle a imprimir.
+				$pusuario = $gg_pp_codigo_usuario;
+				$objDB = new db_model();
+
+
+					//  Guardar la venta.
+					//------------------
+
+					$p_rptJson = $objDB->ventacarrito_buscar_ultimaventa($pusuario);
+					$p_itemVenta = json_decode($p_rptJson, true);
+					//echo "hoal :" .$p_itemCompra;
+					if (isset($p_itemVenta['venta_id']) == null)
+					{
+			
+					// echo "........... vacia"."<br>";
+					$p_itemsVentaDetalle = array();
+					}else
+					{
+					// echo "........... llena"."<br>";
+						$p_itemsVentaDetalle = $p_itemVenta['itemsVentadetallecarritoMap'];
+					}
+
+				
+
+					$p_itemsVentadetalleCarrito = $p_itemVenta['itemsVentadetallecarritoMap'];
+
+					$p_tipodocumento = '4';
+					// generar detalle de compra
+					$p_itemsDetalleVenta     = array();
+					foreach ($p_itemsVentadetalleCarrito as $p_itemVentaDetalleCarrito) 
+					{
+
+						$postDataDetalleVenta    = array(
+							
+														'venta' => array(
+															'venta_id' => '0'),
+
+														'producto' => array(
+																	'producto_id' => $p_itemVentaDetalleCarrito['producto_id']),
+														'cantidad_ventadetalle' => $p_itemVentaDetalleCarrito['cantidad_ventadetalle'] ,
+														
+														'estado' => '1'); 
+
+						$p_itemsDetalleVenta[] = $postDataDetalleVenta;
+
+
+					}
+
+					// Generar la Venta con el detalle
+
+					$postData = array(
+
+						'tipocomprobante' 	=> array(
+											'tipocomprobante_id' => $p_tipodocumento),  
+
+						'documentocliente_venta' => $p_nrodocumento,
+
+						'cliente' 			=> array(
+											'cliente_id' => $pusuario),
+
+
+						'razonsocialcliente_venta' => $p_nombres.' '.$p_apellidos,
+
+						'direccioncliente_venta' => $p_direccioncliente,
+						'direccionentrega_venta' => $p_direccionentrega,
+						'telefonoentrega_venta' => $p_nrotelefono,
+						'tipoentrega_venta' => 'Entrega Tienda',
+								
+								
+						'modalidadpago' => array(
+										'modalidadpago_id' => '1'),
+						'estado_venta' => '1',	
+
+						'itemsVentadetalle' => $p_itemsDetalleVenta
+					);
+				
+					//echo "total cabecera : ".json_encode($postData)."<br>";
+
+					
+					$p_rptJson = $objDB->venta_registrar($postData);
+
+					$p_itemCompraRpt = json_decode($p_rptJson, true); 
+				
+				
+				
+					$p_codigorpt    = $p_itemCompraRpt['mensaje_id'];
+					$p_mensajerpt   = $p_itemCompraRpt['mensaje'];
+					$p_mensaje      = $p_mensajerpt;
+					
+
+
+					if ($p_codigorpt == 0) 
+					{
+						// proceso OK
+
+
+						$p_mensaje            = '¡registro de compra exitoso!';
+
+					} else {
+						// error en la información enviada.
+						$p_mensaje       = $p_mensajerpt;
+					}
+					
+
+
+
+		?>
+
+
+
+
+
+
 	</div>
 
 	<div class="super_container_inner">

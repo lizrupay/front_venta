@@ -21,41 +21,90 @@
 
 <body>
 
-<?php
-    include 'componentes/seguridad.php'; 
-    include 'db/db_model.php'; 
-      // Verificar el detalle a imprimir.
-	  $pusuario = "9";
-      $objDB = new db_model();
-
-      $p_rptJson = $objDB->cliente_buscar($pusuario);
-
-
-      $p_editarCliente = json_decode($p_rptJson, true);
-      
-      $p_codigo              = $p_editarCliente['cliente_id'];
-      $p_nombre 		         = $p_editarCliente['nombres'];
-      $p_apellido 		       = $p_editarCliente['apellidos'];
-      $p_usuario		         = $p_editarCliente['usuario'];
-      $p_clave			         = $p_editarCliente['clave'];
-      $p_telefono            = $p_editarCliente['telefono'];
-      $p_correo              = $p_editarCliente['correo'];
-      $p_direccion           = $p_editarCliente['direccion'];
-      $p_num_doc             = $p_editarCliente['num_doc'];
-      $p_estado              = $p_editarCliente['estado'];
-      $p_codigotipodocumento = $p_editarCliente['tipodocumento_id']; 
-     
-
-
-
-?>
+	<?php
+		include 'componentes/seguridad.php'; 
+		include 'db/db_model.php'; 
+	?>
 
 	<!-- Menu -->
 	<div class="super_container">
 
 		<!-- Header -->
 		<header class="header">
+			<div class="header_overlay">
+
+			</div>
+			<div class="header_content d-flex flex-row align-items-center justify-content-start">
+				
+
+					<!-- User -->
+					<?php include "loginsistemapagar.php"; ?>
+
+
+			
+			</div>
 		</header>
+
+		<!-- Captura Datos API -->
+
+		<?php
+
+			// Verificar el detalle a imprimir.
+			$pusuario = $gg_pp_codigo_usuario;
+			$objDB = new db_model();
+
+			$p_rptJson = $objDB->cliente_buscar($pusuario);
+
+
+			$p_editarCliente = json_decode($p_rptJson, true);
+			
+			$p_codigo              = $p_editarCliente['cliente_id'];
+			$p_nombre 		         = $p_editarCliente['nombres'];
+			$p_apellido 		       = $p_editarCliente['apellidos'];
+			$p_usuario		         = $p_editarCliente['usuario'];
+			$p_clave			         = $p_editarCliente['clave'];
+			$p_telefono            = $p_editarCliente['telefono'];
+			$p_correo              = $p_editarCliente['correo'];
+			$p_direccion           = $p_editarCliente['direccion'];
+			$p_num_doc             = $p_editarCliente['num_doc'];
+			$p_estado              = $p_editarCliente['estado'];
+			$p_codigotipodocumento = $p_editarCliente['tipodocumento_id']; 
+
+			$p_valorVenta 		= "0.0"; 
+			$p_descuentoVenta 	= "0.0"; 
+			$p_subtotalVenta 		= "0.0";  
+			$p_impuestoVenta 		= "0.0";  
+			$p_totalVenta 		= "0.0"; 	
+			
+
+
+			$p_rptJson = $objDB->ventacarrito_buscar_ultimaventa($pusuario);
+			$p_itemVenta = json_decode($p_rptJson, true);
+			//echo "hoal :" .$p_itemCompra;
+			if (isset($p_itemVenta['venta_id']) == null)
+			{
+
+				// echo "........... vacia"."<br>";
+				$p_itemsVentaDetalle = array();
+			}else
+			{
+				// echo "........... llena"."<br>";
+				$p_itemsVentaDetalle = $p_itemVenta['itemsVentadetallecarritoMap'];
+
+				$p_valorVenta = $p_itemVenta['precio_venta']; 
+				$p_descuentoVenta = $p_itemVenta['descuento_venta']; 
+				$p_subtotalVenta = $p_itemVenta['subtotal_venta']; 
+				$p_impuestoVenta = $p_itemVenta['igv_venta']; 
+				$p_totalVenta = $p_itemVenta['total_venta']; 
+			}
+
+
+
+
+
+
+		?>
+
 	</div>
 
 	<div class="super_container_inner">
@@ -265,38 +314,34 @@
 				<div class="cart-summary" style="background-color:#f2f2f2; border: 1px solid #6F6E6E;">
 					<h4 style="color:#00BFFF; text-align: center; font-size: 25px; padding-top: 5px;">RESUMEN DE COMPRA</h4>
 
-					<table class="table table-totals">
-						<tbody>
-							<tr>
-								<td style="font-size:15px; padding-top:20px">Productos (1)</td>
-								<td style="color:#FF3349; padding-top:20px; font-size:15px"><b> S/ 599.00</b></td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<table class="table table-totals">
-						<tbody>
-							<tr>
-								<td>
-									<img src="images/1.jpg" style="max-width:100px; width:100px; height: auto;">
-								</td>
-								<td>
-									<b>TRUST RESTO GAMING CHAIR GXT 707 GREY - PESO 23 KG - RESPALDO ERGONOMICO - GIRATORIA 360° - 5 RUEDAS - MULTIDIRECCIONALES- CILINDRO ELEVADOR CLASE 4 - CUERO DE PU</b>
-									<br>
-										1 Unidad
-									<br>
-										S/599.00
-								</td>
-							</tr>
-						</tbody>
-					</table>
 
-					<button class="button" style="padding-left: 10px; padding-right: 10px; line-height: 30px; margin-left: 175px; background-color: #00BFFF; border: #00BFFF; border-radius: 5px;">
-						<a href="carritocompra.php" style="font-size: 18px; color: #FFFFFF;">VOLVER AL CARRITO DE COMPRA</a>
-					</button>
 
 					<table class="table table-totals" style="margin-top: 25px;">
 						<tbody>
+						<tr>
+							<td>
+							<b>Valor Venta</b>
+							</td>
+							<td>S/ <?php echo$p_valorVenta; ?></td>
+						</tr>	
+						<tr>
+							<td>
+							<b>Descuento</b>
+							</td>
+							<td>S/ <?php echo$p_descuentoVenta; ?></td>
+						</tr>	
+						<tr>
+							<td>
+							<b>Sub Total</b>
+							</td>
+							<td>S/ <?php echo$p_subtotalVenta; ?></td>
+						</tr>	
+						<tr>
+							<td>
+							<b>Impuesto</b>
+							</td>
+							<td>S/ <?php echo$p_impuestoVenta; ?></td>
+						</tr>																									
 						<tr>
 							<td>
 							<b>Costo de Despacho</b><br>
@@ -306,10 +351,15 @@
 						</tr>
 						<tr>
 							<td><b>Monto Final a Pagar</b></td>
-							<td><b>S/ 599.00</b></td>
+							<td><b>S/ <?php echo$p_totalVenta; ?></b></td>
 						</tr>
 						</tbody>
 					</table>
+
+					<button class="button" style="padding-left: 10px; padding-right: 10px; line-height: 30px; margin-left: 175px; background-color: #00BFFF; border: #00BFFF; border-radius: 5px;">
+						<a href="carritocompra.php" style="font-size: 18px; color: #FFFFFF;">VOLVER AL CARRITO DE COMPRA</a>
+					</button>
+									
 				</div>
 			</div>
 		</div>

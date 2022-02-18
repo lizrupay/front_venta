@@ -16,34 +16,16 @@
 	<link rel="stylesheet" type="text/css" href="styles/cart_responsive.css">
 
 	<!-- Favicon -->
-	<link rel="icon" type="image/x-icon" href="images\mundotec.png">
+	<!--<link rel="icon" type="image/x-icon" href="images\mundotec.png"> -->
+	<a href="index.php" class="logo" style="margin-left: 50px;"> <img src="images\logo.png" style="width:250px"></a>
 </head>
 
 <body>
 
-<?php
-    include 'componentes/seguridad.php'; 
-    include 'db/db_model.php'; 
-      // Verificar el detalle a imprimir.
-	  $pusuario = "9";
-      $objDB = new db_model();
-      $p_rptJson = $objDB->ventacarrito_buscar_ultimaventa($pusuario);
-      $p_itemVenta = json_decode($p_rptJson, true);
-      //echo "hoal :" .$p_itemCompra;
-      if (isset($p_itemVenta['venta_id']) == null)
-      {
-
-        // echo "........... vacia"."<br>";
-        $p_itemsVentaDetalle = array();
-      }else
-      {
-        // echo "........... llena"."<br>";
-          $p_itemsVentaDetalle = $p_itemVenta['itemsVentadetallecarritoMap'];
-      }
-
-
-
-?>
+	<?php
+		include 'componentes/seguridad.php'; 
+		include 'db/db_model.php'; 
+	?>
 
 
 
@@ -54,19 +36,57 @@
 		<!-- Header -->
 
 		<header class="header">
-		<div class="header_overlay">
+			<div class="header_overlay">
 
-        </div>
-		<div class="header_content d-flex flex-row align-items-center justify-content-start">
+			</div>
+			<div class="header_content d-flex flex-row align-items-center justify-content-start">
+				
+
+					<!-- User -->
+					<?php include "loginsistemapagar.php"; ?>
+
+
 			
+			</div>
+		</header>
 
-				<!-- User -->
-				<?php include "loginsistema.php"; ?>
+	<!-- Captura Datos API -->
 
+	<?php
 
+		// Verificar el detalle a imprimir.
+		$pusuario 			= $gg_pp_codigo_usuario;
+
+		$p_valorVenta 		= "0.0"; 
+		$p_descuentoVenta 	= "0.0"; 
+		$p_subtotalVenta 	= "0.0";  
+		$p_impuestoVenta 	= "0.0";  
+		$p_totalVenta 		= "0.0"; 	
 		
-		</div>
-	</header>
+
+		$objDB = new db_model();
+		$p_rptJson = $objDB->ventacarrito_buscar_ultimaventa($pusuario);
+		$p_itemVenta = json_decode($p_rptJson, true);
+		//echo "hoal :" .$p_itemCompra;
+		if (isset($p_itemVenta['venta_id']) == null)
+		{
+
+			// echo "........... vacia"."<br>";
+			$p_itemsVentaDetalle = array();
+		}else
+		{
+			// echo "........... llena"."<br>";
+			$p_itemsVentaDetalle 	= $p_itemVenta['itemsVentadetallecarritoMap'];
+			$p_valorVenta 		= $p_itemVenta['precio_venta']; 
+			$p_descuentoVenta 	= $p_itemVenta['descuento_venta']; 
+			$p_subtotalVenta 		= $p_itemVenta['subtotal_venta']; 
+			$p_impuestoVenta 		= $p_itemVenta['igv_venta']; 
+			$p_totalVenta 		= $p_itemVenta['total_venta']; 		  
+		}
+
+
+
+	?>	
 
 	<div class="super_container_inner">
 		<div class="super_overlay"></div>
@@ -158,7 +178,21 @@
 							<!-- Cart Buttons -->
 							<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 								<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
+								<?php
+								if ($p_totalVenta > 0)
+								{
+								?>
 									<div class="button button_clear trans_200"><a href="carritocompra.php">VACIAR CARRITO</a></div>
+								<?php
+								}
+								else
+								{
+								?>
+									<div class="button button_clear trans_200">VACIAR CARRITO</div>
+								<?php
+								}
+								?>									
+									
 									<div class="button button_continue trans_200"><a href="index.php">CONTINUAR COMPRA</a></div>
 								</div>
 							</div>
@@ -197,30 +231,44 @@
 						<div class="cart_extra cart_extra_2">
 							<div class="cart_extra_content cart_extra_total">
 								<div class="cart_extra_title">Total Del Carrito</div>
+
 								<ul class="cart_extra_total_list">
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Valor venta</div>
-										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_itemVenta['precio_venta']; ?></div>
+										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_valorVenta; ?></div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Descuento</div>
-										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_itemVenta['descuento_venta']; ?></div>
+										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_descuentoVenta; ?></div>
 									</li>	
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Sub Total</div>
-										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_itemVenta['subtotal_venta']; ?></div>
+										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_subtotalVenta; ?></div>
 									</li>																	
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Impuesto</div>
-										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_itemVenta['igv_venta']; ?></div>
+										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_impuestoVenta; ?></div>
 									</li>									
 
 									<li class="d-flex flex-row align-items-center justify-content-start" style="margin-top: 25px;">
 										<div class="cart_extra_total_title">Total</div>
-										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_itemVenta['total_venta']; ?></div>
+										<div class="cart_extra_total_value ml-auto">S/ <?php echo $p_totalVenta; ?></div>
 									</li>
 								</ul>
-								<div class="checkout_button trans_200"><a href="checkout.php">REALIZAR COMPRA</a></div>
+								<?php
+								if ($p_totalVenta > 0)
+								{
+								?>
+									<div class="checkout_button trans_200"><a href="checkout.php">REALIZAR COMPRA</a></div>
+								<?php
+								}
+								else
+								{
+								?>
+									<div class="checkout_button trans_200">REALIZAR COMPRA</div>
+								<?php
+								}
+								?>
 							</div>
 						</div>
 					</div>

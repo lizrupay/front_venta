@@ -20,23 +20,20 @@
 	<link rel="stylesheet" type="text/css" href="styles/category.css">
 	<link rel="stylesheet" type="text/css" href="styles/category_responsive.css">
 	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+	<link rel="stylesheet" type="text/css" href="styles/header.css">
 </head>
         
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images\MUNDOTEC.png">
+    <!-- Favicon 
+	 <link rel="icon" type="image/x-icon" href="images\MUNDOTEC.png">
+	-->
 
 <body>
 
-<?php 
-    include 'componentes/seguridad.php'; 
-    include 'db/db_model.php'; 
+	<?php 
+		include 'componentes/seguridad.php'; 
+		include 'db/db_model.php'; 
 
-
-
-
-
-
-?>
+	?>
 
 
 	<div class="super_container">
@@ -58,9 +55,9 @@
 			</div>
 		</header>
 
+	
 
-
-			<div class="super_container_inner">
+		<div class="super_container_inner">
 			<div class="super_overlay"></div>
 
 			<!-- Home -->
@@ -186,7 +183,7 @@
 							}
 		
 							
-							$pusuario = "9"; //$gg_pp_codigo_usuario;
+							$pusuario = $gg_pp_codigo_usuario;
 
 							foreach ($p_itemsCategoria as $p_itemCategoria) 
 							{
@@ -198,7 +195,8 @@
 								$pproductoid	  = "0"; 
 
 								$token = $pusuario."|".$pcompracarrito."|".$pproductoid."|".$pcategoriacodigo."|".$pcategorianombre;
-													
+								
+							//	echo $token."\n";
 
 						?>
 
@@ -258,7 +256,7 @@
         </footer>
 
     <!-- Main JS File -->
-    <script src="https://www.datamundo.pe/public/web/assets/js/main.min.js"></script>
+   <!-- <script src="https://www.datamundo.pe/public/web/assets/js/main.min.js"></script> -->
 
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="styles/bootstrap-4.1.2/popper.js"></script>
@@ -275,7 +273,10 @@
 	<script src="plugins/easing/easing.js"></script>
 	<script src="plugins/progressbar/progressbar.min.js"></script>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
-	<script src="js/custom.js"></script>
+	<script src="js/custom.js"></script> 
+	<!--  <script src="js/category.js"></script> -->
     
+
+
    </body>
    </html>
